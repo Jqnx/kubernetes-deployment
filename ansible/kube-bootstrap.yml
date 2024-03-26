@@ -1,0 +1,27 @@
+# Playbook File
+---
+- name: Bootstrap kubernetes nodes
+  hosts: master1
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Update all systems
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: true
+
+    # Get docker ready
+    - name: Install Docker
+      ansible.builtin.include_role:
+        name: docker
+        tasks_from: main
+
+    - name: Install docker-cri
+      ansible.builtin.include_role:
+        name: cri-dockerd
+
+    # Get kubernetes ready
+    - name: Install kubeadm, kubelet and kubectl
+      ansible.builtin.include_role:
+        name: kubernetes
