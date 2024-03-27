@@ -1,7 +1,7 @@
 # Playbook File
 ---
 - name: Bootstrap kubernetes nodes
-  hosts: master1
+  hosts: cluster-prod
   become: true
   gather_facts: true
 

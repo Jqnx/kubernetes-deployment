@@ -1,6 +1,6 @@
 # Tasks File
 
-# kubeadm, kubelet and kubectl Install
+# Install kubeadm, kubelet and kubectl
 - name: Install dependencies
   ansible.builtin.apt:
     name:

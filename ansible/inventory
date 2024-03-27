@@ -1,16 +1,35 @@
-master1 ansible_host=192.168.10.20 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
-worker1 ansible_host=192.168.10.21 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
-worker2 ansible_host=192.168.10.22 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
-worker3 ansible_host=192.168.10.23 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+master1-prod ansible_host=192.168.25.10 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker1-prod ansible_host=192.168.25.11 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker2-prod ansible_host=192.168.25.12 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker3-prod ansible_host=192.168.25.13 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
 
-[masters]
-master1
+master1-dev ansible_host=192.168.25.10 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker1-dev ansible_host=192.168.25.11 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker2-dev ansible_host=192.168.25.12 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker3-dev ansible_host=192.168.25.13 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
 
-[workers]
-worker1
-worker2
-worker3
+#Production
+[masters-prod]
+master1-prod
 
-[cluster:children]
-masters
-workers
+[workers-prod]
+worker1-prod
+worker2-prod
+worker3-prod
+
+[cluster-prod:children]
+masters-prod
+workers-prod
+
+#Development
+[masters-dev]
+master1-dev
+
+[workers-dev]
+worker1-dev
+worker2-dev
+worker3-dev
+
+[cluster-dev:children]
+masters-dev
+workers-dev
