@@ -1,6 +1,6 @@
 ---
 - name: Test how facts work
-  hosts: masters
+  hosts: worker3_prod
   become: true
   gather_facts: true
 

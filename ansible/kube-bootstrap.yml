@@ -1,7 +1,7 @@
 # Playbook File
 ---
 - name: Bootstrap kubernetes nodes
-  hosts: cluster-prod
+  hosts: worker3_prod
   become: true
   gather_facts: true
 
@@ -17,11 +17,11 @@
         name: docker
         tasks_from: main
 
-    - name: Install docker-cri
-      ansible.builtin.include_role:
-        name: cri-dockerd
+    # - name: Install docker-cri
+    #   ansible.builtin.include_role:
+    #     name: cri-dockerd
 
     # Get kubernetes ready
-    - name: Install kubeadm, kubelet and kubectl
+    - name: Create kubernetes cluster
       ansible.builtin.include_role:
         name: kubernetes

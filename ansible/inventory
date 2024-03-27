@@ -1,35 +1,35 @@
-master1-prod ansible_host=192.168.25.10 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
-worker1-prod ansible_host=192.168.25.11 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
-worker2-prod ansible_host=192.168.25.12 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
-worker3-prod ansible_host=192.168.25.13 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+master1_prod ansible_host=192.168.10.20 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker1_prod ansible_host=192.168.10.21 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker2_prod ansible_host=192.168.10.22 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker3_prod ansible_host=192.168.10.23 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
 
-master1-dev ansible_host=192.168.25.10 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
-worker1-dev ansible_host=192.168.25.11 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
-worker2-dev ansible_host=192.168.25.12 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
-worker3-dev ansible_host=192.168.25.13 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+master1_dev ansible_host=192.168.25.10 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker1_dev ansible_host=192.168.25.11 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker2_dev ansible_host=192.168.25.12 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
+worker3_dev ansible_host=192.168.25.13 ansible_user=jan ansible_ssh_private_key_file=~/.ssh/id_rsa
 
 #Production
-[masters-prod]
-master1-prod
+[masters_prod]
+master1_prod
 
-[workers-prod]
-worker1-prod
-worker2-prod
-worker3-prod
+[workers_prod]
+worker1_prod
+worker2_prod
+worker3_prod
 
-[cluster-prod:children]
-masters-prod
-workers-prod
+[cluster_prod:children]
+masters_prod
+workers_prod
 
 #Development
-[masters-dev]
-master1-dev
+[masters_dev]
+master1_dev
 
-[workers-dev]
-worker1-dev
-worker2-dev
-worker3-dev
+[workers_dev]
+worker1_dev
+worker2_dev
+worker3_dev
 
-[cluster-dev:children]
-masters-dev
-workers-dev
+[cluster_dev:children]
+masters_dev
+workers_dev

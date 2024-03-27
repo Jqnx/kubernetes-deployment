@@ -1,0 +1,16 @@
+---
+
+kubernetes_pod_network:
+  cni: 'flannel'
+  cidr: '10.52.0.0/16'
+
+
+kubernetes_kubeadm_kubelet_config_file_path: '/etc/kubernetes/kubeadm-kubelet-config.yml'
+
+# Kubelet config
+kubernetes_config_kubelet_configuration:
+  cgroupDriver: "systemd"
+
+# kubeadm init config
+kubernetes_config_init_configuration:
+  
