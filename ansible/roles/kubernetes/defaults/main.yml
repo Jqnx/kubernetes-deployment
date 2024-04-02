@@ -1,10 +1,12 @@
 ---
+# version
+kubernetes_version: '1.29'
 
+# misc
+kubernetes_apiserver_advertise_address: ''
 kubernetes_pod_network:
   cni: 'flannel'
   cidr: '10.52.0.0/16'
-
-
 kubernetes_kubeadm_kubelet_config_file_path: '/etc/kubernetes/kubeadm-kubelet-config.yml'
 
 # Kubelet config
@@ -13,4 +15,18 @@ kubernetes_config_kubelet_configuration:
 
 # kubeadm init config
 kubernetes_config_init_configuration:
-  
+  localAPIEndpoint:
+    advertiseAddress: "{{ kubernetes_apiserver_advertise_address | default(ansible_default_ipv4.address, true) }}"
+
+# kubeadm cluster config
+kubernetes_config_cluster_configuration:
+  networking:
+    podSubnet: "{{ kubernetes_pod_network.cidr }}"
+  kubernetesVersion: "v{{ kubernetes_version }}"
+  controlPlaneEndpoint: 'cluster-endpoint.local'
+
+# kubeproxy config
+kubernetes_config_kube_proxy_configuration: {}
+
+# Flannel config file.
+kubernetes_flannel_manifest_file: https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
