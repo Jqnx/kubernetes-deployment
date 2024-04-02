@@ -1,7 +1,7 @@
 # Playbook File
 ---
 - name: Bootstrap kubernetes nodes
-  hosts: worker3_prod
+  hosts: master1_dev
   become: true
   gather_facts: true
 
@@ -16,6 +16,11 @@
       ansible.builtin.include_role:
         name: docker
         tasks_from: main
+
+    # Get containerd ready
+    - name: Configure containerd
+      ansible.builtin.include_role:
+        name: containerd
 
     # - name: Install docker-cri
     #   ansible.builtin.include_role:
