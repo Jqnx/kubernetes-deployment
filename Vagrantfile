@@ -20,8 +20,10 @@ Vagrant.configure(2) do |config|
             if machine_id == N
                 machine.vm.provision :ansible do |ansible|
                   # Disable default limit to connect to all the machines
+                  ansible.compatibility_mode = "2.0"
                   ansible.limit = "all"
-                  ansible.verbose = "v"
+                  # Enable verbose mode
+                  #ansible.verbose = "v"
                   ansible.playbook = "ansible/kube-bootstrap.yml"
                   ansible.groups = {
                     "masters" => ["m1"],
