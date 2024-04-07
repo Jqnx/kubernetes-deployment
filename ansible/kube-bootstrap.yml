@@ -1,26 +1,39 @@
 # Playbook File
 ---
 - name: Bootstrap kubernetes nodes
-  hosts: master1_dev
+  hosts: all
   become: true
   gather_facts: true
 
   tasks:
+    # System prep
     - name: Update all systems
       ansible.builtin.apt:
         update_cache: true
         upgrade: true
 
+    - name: Disable SWAP temporarily so kubernetes can setup
+      ansible.builtin.command: swapoff -a
+      changed_when: true
+
+    - name: Disable SWAP in fstab to make it persistent
+      ansible.builtin.replace:
+        path: /etc/fstab
+        regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+        replace: '# \1'
+
     # Get docker ready
     - name: Install Docker
       ansible.builtin.include_role:
         name: docker
-        tasks_from: main
 
     # Get containerd ready
     - name: Configure containerd
       ansible.builtin.include_role:
         name: containerd
+
+    - name: Run containerd handlers
+      ansible.builtin.meta: flush_handlers
 
     # - name: Install docker-cri
     #   ansible.builtin.include_role:
