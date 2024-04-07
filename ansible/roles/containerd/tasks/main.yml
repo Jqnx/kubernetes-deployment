@@ -40,7 +40,8 @@
     path: /tmp/containerd_config.toml
     state: absent
     line: '            SystemdCgroup = false'
-  notify: Restart containerd
+  notify:
+    - Restart containerd
 
 
 - name: Copy config.toml to /etc/containerd
@@ -49,7 +50,8 @@
     src: /tmp/containerd_config.toml
     dest: /etc/containerd/config.toml
     mode: '0644'
-  notify: Restart containerd
+  notify:
+    - Restart containerd
 
 - name: Cleanup temporary file
   ansible.builtin.file:
