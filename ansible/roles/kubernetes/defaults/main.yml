@@ -8,6 +8,9 @@ kubernetes_pod_network:
   cni: 'flannel'
   cidr: '10.52.0.0/16'
 kubernetes_kubeadm_kubelet_config_file_path: '/etc/kubernetes/kubeadm-kubelet-config.yml'
+kubernetes_allow_pods_on_control_plane: false
+kubernetes_kubeadm_init_extra_opts: ""
+
 
 # Kubelet config
 kubernetes_config_kubelet_configuration:
@@ -17,13 +20,14 @@ kubernetes_config_kubelet_configuration:
 kubernetes_config_init_configuration:
   localAPIEndpoint:
     advertiseAddress: "{{ kubernetes_apiserver_advertise_address | default(ansible_default_ipv4.address, true) }}"
+    bindPort: 6443
 
 # kubeadm cluster config
 kubernetes_config_cluster_configuration:
   networking:
     podSubnet: "{{ kubernetes_pod_network.cidr }}"
-  kubernetesVersion: "v{{ kubernetes_version }}"
-  controlPlaneEndpoint: 'cluster-endpoint.local'
+  kubernetesVersion: "stable-{{ kubernetes_version }}"
+  # controlPlaneEndpoint: 'cluster-endpoint.local'
 
 # kubeproxy config
 kubernetes_config_kube_proxy_configuration: {}

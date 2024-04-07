@@ -10,18 +10,24 @@
       - gpg
     state: present
 
-- name: Add signing key
+- name: Add kubernetes signing key
   ansible.builtin.get_url:
     url: https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/Release.key
     dest: /etc/apt/keyrings/kubernetes-apt-keyring.asc
     mode: '0644'
     force: true
 
-- name: Add repository
+- name: Add kubernetes repository
   ansible.builtin.apt_repository:
     repo: deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.asc] https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/ /
     state: present
     update_cache: true
+
+- name: Add Kubernetes apt preferences file to pin a version.
+  ansible.builtin.template:
+    src: apt-preferences-kubernetes.j2
+    dest: /etc/apt/preferences.d/kubernetes
+    mode: "0644"
 
 - name: Install packages
   ansible.builtin.apt:
@@ -31,10 +37,18 @@
       - kubectl
     state: present
 
-- name: Enable kubelet
+- name: Ensure kubelet is enabled and started
   ansible.builtin.service:
     name: kubelet
     enabled: true
     state: started
 
-#
+- name: Check if Kubernetes has already been initialized.
+  ansible.builtin.stat:
+    path: /etc/kubernetes/admin.conf
+  register: kubernetes_init_stat
+
+# Initialize control plane
+- name: Setup control plane
+  ansible.builtin.include_tasks: control-plane.yml
+  when: kubernetes_role == 'control_plane'
