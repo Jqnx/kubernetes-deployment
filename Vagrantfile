@@ -25,6 +25,7 @@ Vagrant.configure(2) do |config|
                   # Enable verbose mode
                   #ansible.verbose = "v"
                   ansible.playbook = "ansible/kube-bootstrap.yml"
+                  #ansible.playbook = "ansible/facts-test.yml"
                   ansible.groups = {
                     "masters" => ["m1"],
                     "masters:vars" => {"kubernetes_role" => "control_plane"},
