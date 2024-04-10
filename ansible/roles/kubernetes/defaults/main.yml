@@ -1,15 +1,19 @@
 ---
+# vagrant
+kubernetes_using_vagrant: true
+
 # version
 kubernetes_version: '1.29'
 
 # misc
-kubernetes_apiserver_advertise_address: ''
+kubernetes_apiserver_advertise_address: '{{ ansible_eth1.ipv4.address }}'
 kubernetes_pod_network:
   cni: 'flannel'
-  cidr: '10.52.0.0/16'
+  cidr: '10.244.0.0/16'
 kubernetes_kubeadm_kubelet_config_file_path: '/etc/kubernetes/kubeadm-kubelet-config.yml'
 kubernetes_allow_pods_on_control_plane: false
 kubernetes_kubeadm_init_extra_opts: ""
+kubernetes_join_command_extra_opts: ""
 
 
 # Kubelet config

@@ -52,10 +52,41 @@
   ansible.builtin.command: "kubectl apply -f {{ kubernetes_flannel_manifest_file }}"
   register: flannel_result
   changed_when: "'created' in flannel_result.stdout"
-  when: kubernetes_pod_network.cni == 'flannel'
+  when:
+    - not kubernetes_using_vagrant
+    - kubernetes_pod_network.cni == 'flannel'
   until: flannel_result is not failed
   retries: 12
   delay: 5
+
+- name: Get Flannel manifest.
+  ansible.builtin.get_url:
+    url: "{{ kubernetes_flannel_manifest_file }}"
+    dest: /tmp/kube-flannel.yml
+    mode: "0644"
+  when: kubernetes_using_vagrant | bool
+
+- name: Add correct interface to flannel.
+  ansible.builtin.lineinfile:
+    insertafter: '- --kube-subnet-mgr'
+    line: '        - --iface=eth1'
+    state: present
+    path: /tmp/kube-flannel.yml
+  when: kubernetes_using_vagrant | bool
+
+- name: Configure Vagrant Flannel networking.
+  ansible.builtin.command: "kubectl apply -f /tmp/kube-flannel.yml"
+  register: flannel_result
+  changed_when: "'created' in flannel_result.stdout"
+  when:
+    - kubernetes_using_vagrant | bool
+    - kubernetes_pod_network.cni == 'flannel'
+  until: flannel_result is not failed
+  retries: 12
+  delay: 5
+
+# TODO: Download flannel config with curl and add --iface=eth1 to the manifest
+# with line_infile for usage with vagrant
 
 # - name: Configure Calico networking.
 #   command: "kubectl apply -f {{ kubernetes_calico_manifest_file }}"
