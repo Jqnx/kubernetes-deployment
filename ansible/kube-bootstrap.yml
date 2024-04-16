@@ -25,19 +25,15 @@
     # Get docker ready
     - name: Install Docker
       ansible.builtin.include_role:
-        name: docker
+        name: docker-role
 
     # Get containerd ready
     - name: Configure containerd
       ansible.builtin.include_role:
-        name: containerd
+        name: containerd-role
 
     - name: Run containerd handlers
       ansible.builtin.meta: flush_handlers
-
-    # - name: Install docker-cri
-    #   ansible.builtin.include_role:
-    #     name: cri-dockerd
 
     # Get kubernetes ready
     - name: Create kubernetes cluster

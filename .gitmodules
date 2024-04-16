@@ -1,0 +1,6 @@
+[submodule "ansible/roles/docker-role"]
+	path = ansible/roles/docker-role
+	url = https://github.com/Jqnx/docker-role
+[submodule "ansible/roles/containerd-role"]
+	path = ansible/roles/containerd-role
+	url = https://github.com/Jqnx/containerd-role
