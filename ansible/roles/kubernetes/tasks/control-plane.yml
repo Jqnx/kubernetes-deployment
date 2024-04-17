@@ -37,14 +37,14 @@
 
 - name: Ensure .kube directory exists.
   ansible.builtin.file:
-    path: ~/.kube
+    path: /home/{{ ansible_facts.env.SUDO_USER }}/.kube
     state: directory
     mode: "0755"
 
 - name: Symlink the kubectl admin.conf to ~/.kube/conf.
   ansible.builtin.file:
     src: /etc/kubernetes/admin.conf
-    dest: ~/.kube/config
+    dest: /home/{{ ansible_facts.env.SUDO_USER }}/.kube/config
     state: link
     mode: "0644"
 
