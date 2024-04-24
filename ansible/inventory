@@ -25,6 +25,9 @@ workers_prod
 [masters_dev]
 master1_dev
 
+[masters_dev:vars]
+kubernetes_role = control_plane
+
 [workers_dev]
 worker1_dev
 worker2_dev
