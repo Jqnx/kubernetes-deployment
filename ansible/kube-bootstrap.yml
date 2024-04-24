@@ -22,6 +22,19 @@
         regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
         replace: '# \1'
 
+    - name: Install nmap
+      ansible.builtin.apt:
+        name:
+          - nmap
+        state: present
+
+    - name: Test connectivity between machines
+      ansible.builtin.command:
+        nping -c 2 --icmp 192.168.25.20-24
+      register: nping_result
+      changed_when: "'done' in nping_result.stdout"
+      when: kubernetes_role == 'control_plane'
+
     # Get docker ready
     - name: Install Docker
       ansible.builtin.include_role:
