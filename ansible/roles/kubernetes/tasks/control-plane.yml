@@ -98,9 +98,6 @@
   retries: 12
   delay: 5
 
-# TODO: Download flannel config with curl and add --iface=eth1 to the manifest
-# with line_infile for usage with vagrant
-
 # - name: Configure Calico networking.
 #   command: "kubectl apply -f {{ kubernetes_calico_manifest_file }}"
 #   register: calico_result
@@ -126,6 +123,24 @@
 #   register: weave_result
 #   changed_when: "'created' in weave_result.stdout"
 #   when: kubernetes_pod_network.cni == 'weave'
+
+- name: Add helm gpg key
+  ansible.builtin.get_url:
+    url: https://baltocdn.com/helm/signing.asc
+    dest: /etc/apt/keyrings/helm.asc
+    mode: '644'
+    force: true
+
+- name: Add helm repository
+  ansible.builtin.apt_repository:
+    repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/helm.asc] https://baltocdn.com/helm/stable/debian/ all main
+    state: present
+    update_cache: true
+
+- name: Install helm package
+  ansible.builtin.apt:
+    name: helm
+    state: present
 
 # TODO: Check if taint exists with something like `kubectl describe nodes`
 # instead of using kubernetes_init_stat.stat.exists check.
