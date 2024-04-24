@@ -1,6 +1,6 @@
 ---
 # vagrant
-kubernetes_using_vagrant: true
+kubernetes_using_vagrant: false
 
 # version
 kubernetes_version: '1.29'
