@@ -34,7 +34,10 @@ kubernetes_config_cluster_configuration:
   # controlPlaneEndpoint: 'cluster-endpoint.local'
 
 # kubeproxy config
-kubernetes_config_kube_proxy_configuration: {}
+kubernetes_config_kube_proxy_configuration:
+  mode: "ipvs"
+  ipvs:
+    strictARP: true
 
 # Flannel config file.
 kubernetes_flannel_manifest_file: https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
