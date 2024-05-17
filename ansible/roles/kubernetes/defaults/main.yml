@@ -32,6 +32,9 @@ kubernetes_config_cluster_configuration:
     podSubnet: "{{ kubernetes_pod_network.cidr }}"
   kubernetesVersion: "stable-{{ kubernetes_version }}"
   # controlPlaneEndpoint: 'cluster-endpoint.local'
+  apiServer:
+    certSANs:
+    - "domain-here"
 
 # kubeproxy config
 kubernetes_config_kube_proxy_configuration:
